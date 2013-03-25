@@ -3,6 +3,7 @@ AFTG
 
 Minecraft mod that greatly increases its difficulty. 
 Current verison V0.7 Alpha for MC 1.5.1.
+Here is the modified files' source code.
 
 Implemented Features
 ---------------------
