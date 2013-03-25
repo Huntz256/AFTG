@@ -30,7 +30,7 @@ Implemented Features
 
 How to Install
 --------------
-Assuming you already have installed Minecraft 1.5.1 and you have a clean minecraft jar...
+Assuming you already have installed Minecraft 1.5.1, you have a clean minecraft.jar, and you fully understand the risks of trying out a work in progress mod from a newbie coder...
 
 Non-Modders:  
 1. Download Forge 7.7.0.605 here: 
@@ -39,7 +39,7 @@ http://files.minecraftforge.net/minecraftforge/minecraftforge-universal-1.5.1-7.
 3. Download and start Magic Launcher here: http://www.minecraftforum.net/topic/939149-launcher-magic-launcher-100-mods-options-news/  
 4. Click Setup, click Add, and select the downloaded files from steps 1 and 2.  
 5. Click OK and login!  
-6. Create a new world and play. (Highly recommended)
+6. Create a NEW world (highly recommended) and play. 
 
 Modders:  
 (Assuming you use Eclipse.)  
