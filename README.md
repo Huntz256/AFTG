@@ -32,18 +32,19 @@ How to Install
 --------------
 Assuming you already have installed Minecraft 1.5.1 and you have a clean minecraft jar...
 
-Non-Modders:
-1. Download Forge 7.7.0.605 here: http://files.minecraftforge.net/minecraftforge/minecraftforge-universal-1.5.1-7.7.0.605.zip
-2. Download AFTG here: https://dl.dropbox.com/s/js0p3265eiu7xyf/%5B1.5.1%5D%20Arrows%20from%20the%20Ground%20v0.7.zip?token_hash=AAGtib9Fbg1SbOtR87JHMABP4TZrtXzAN1E9s7oyZ6lhFA&dl=1
-3. Download and start Magic Launcher here: http://www.minecraftforum.net/topic/939149-launcher-magic-launcher-100-mods-options-news/
-4. Click Setup, click Add, and select the downloaded files from steps 1 and 2.
+Non-Modders:  
+1. Download Forge 7.7.0.605 here: 
+http://files.minecraftforge.net/minecraftforge/minecraftforge-universal-1.5.1-7.7.0.605.zip  
+2. Download AFTG here: https://dl.dropbox.com/s/js0p3265eiu7xyf/%5B1.5.1%5D%20Arrows%20from%20the%20Ground%20v0.7.zip?token_hash=AAGtib9Fbg1SbOtR87JHMABP4TZrtXzAN1E9s7oyZ6lhFA&dl=1  
+3. Download and start Magic Launcher here: http://www.minecraftforum.net/topic/939149-launcher-magic-launcher-100-mods-options-news/  
+4. Click Setup, click Add, and select the downloaded files from steps 1 and 2.  
 5. Click OK and login!
 
-Modders:
-Assuming you use Eclipse. 
-1. Download Forge 7.7.605 source here: http://files.minecraftforge.net/minecraftforge/minecraftforge-src-1.5.1-7.7.0.605.zip
-2. Extract to a folder and run install.cmd.
-3. Go to forge/mcp/src/minecraft/net/minecraft and copy the contents of /srs from GitHub into there.
+Modders:  
+(Assuming you use Eclipse.)  
+1. Download Forge 7.7.605 source here: http://files.minecraftforge.net/minecraftforge/minecraftforge-src-1.5.1-7.7.0.605.zip  
+2. Extract to a folder and run install.cmd.  
+3. Go to forge/mcp/src/minecraft/net/minecraft and copy the contents of /srs from GitHub into there.  
 4. Start Eclipse and select forge/mcp/eclipse as the Workspace.
 
 
