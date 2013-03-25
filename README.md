@@ -1,11 +1,10 @@
-AFTG 
+AFTG
 ====
-
-Minecraft mod that greatly increases its difficulty.  
+This is the source code for a minecraft mod that greatly increases its difficulty.  
 Verison Alpha V0.7 for MC 1.5.1.  
-Here is the modified files' source code.   
+(This is my first mod.)
 
-Implemented Features
+Implemented Features 
 ---------------------
 -Under certain conditions, lethal Arrows From The Ground will shoot upwards in volleys.  
 -The player takes 1.5x damage from all difficulty scaled damage sources (that means all mobs).  
