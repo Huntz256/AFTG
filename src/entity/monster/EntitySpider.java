@@ -1,5 +1,7 @@
 package net.minecraft.entity.monster;
 
+import java.util.Random;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -40,6 +42,19 @@ public class EntitySpider extends EntityMob
         }
     }
 
+    //Have a chance to spawn web blocks 
+    public void onLivingUpdate()
+    {
+    	super.onLivingUpdate();
+    	
+	    Random random = new Random();
+	    if(random.nextInt(2000) == 0)
+	    {
+	    	this.worldObj.setBlock((int)posX, (int)posY, (int)posZ, 30);
+	    }
+    }
+    //
+    
     public int getMaxHealth()
     {
         return 16;
@@ -63,7 +78,7 @@ public class EntitySpider extends EntityMob
 
         if (f < 0.5F)
         {
-            double d0 = 16.0D;
+            double d0 = 64.0D; //Default 16.0D 
             return this.worldObj.getClosestVulnerablePlayerToEntity(this, d0);
         }
         else

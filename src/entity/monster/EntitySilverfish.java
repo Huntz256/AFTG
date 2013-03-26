@@ -3,8 +3,11 @@ package net.minecraft.entity.monster;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Facing;
@@ -46,7 +49,7 @@ public class EntitySilverfish extends EntityMob
      */
     protected Entity findPlayerToAttack()
     {
-        double d0 = 8.0D;
+        double d0 = 32.0D; ////Default 8.0F 
         return this.worldObj.getClosestVulnerablePlayerToEntity(this, d0);
     }
 
@@ -103,6 +106,9 @@ public class EntitySilverfish extends EntityMob
         {
             this.attackTime = 20;
             this.attackEntityAsMob(par1Entity);
+            
+            ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 7 * 20, 1)); //Add 7s of Weakness II
+            ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.confusion.id, 7 * 20, 4)); //Add 7s of Nausea V
         }
     }
 

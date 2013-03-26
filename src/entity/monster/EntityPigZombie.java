@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class EntityPigZombie extends EntityZombie
 {
     /** Above zero if this PigZombie is Angry. */
-    private int angerLevel = 1; //
+    private int angerLevel = 1; //Default: 0
 
     /** A random delay until this PigZombie next makes a sound. */
     private int randomSoundDelay = 0;
@@ -23,7 +23,7 @@ public class EntityPigZombie extends EntityZombie
     {
         super(par1World);
         this.texture = "/mob/pigzombie.png";
-        this.moveSpeed = 0.52F; //Def: 0.5F
+        this.moveSpeed = 0.52F; //Default: 0.5F
         this.isImmuneToFire = true;
     }
 
@@ -40,7 +40,7 @@ public class EntityPigZombie extends EntityZombie
      */
     public void onUpdate()
     {
-        this.moveSpeed = this.entityToAttack != null ? 0.95F : 0.5F;
+        this.moveSpeed = this.entityToAttack != null ? 0.95F : 0.52F; //Default: 0.95F : 0.5F
 
         if (this.randomSoundDelay > 0 && --this.randomSoundDelay == 0)
         {
@@ -92,7 +92,18 @@ public class EntityPigZombie extends EntityZombie
      */
     protected Entity findPlayerToAttack()
     {
-        return this.angerLevel == 0 ? null : super.findPlayerToAttack();
+        //Default  return this.angerLevel == 0 ? null : super.findPlayerToAttack();
+        
+    	//
+    	if(this.angerLevel == 0)
+    	{
+    		return null;
+    	}
+    	
+        EntityPlayer entityplayer = super.worldObj.getClosestVulnerablePlayerToEntity(this, 8.0D); 
+        return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
+    	
+        //
     }
 
     /**
@@ -184,6 +195,9 @@ public class EntityPigZombie extends EntityZombie
         {
             this.dropItem(Item.goldNugget.itemID, 1);
         }
+        
+        this.dropItem(Item.rottenFlesh.itemID, 1); //
+        this.dropItem(Item.goldNugget.itemID, 1); //
     }
 
     /**
@@ -230,7 +244,7 @@ public class EntityPigZombie extends EntityZombie
     public int getAttackStrength(Entity par1Entity)
     {
         ItemStack itemstack = this.getHeldItem();
-        int i = 5;
+        int i = 2; //Default i = 5;
 
         if (itemstack != null)
         {

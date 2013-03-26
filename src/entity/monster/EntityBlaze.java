@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import java.util.Random; //
 
 public class EntityBlaze extends EntityMob
 {
@@ -117,7 +118,15 @@ public class EntityBlaze extends EntityMob
         {
             this.worldObj.spawnParticle("largesmoke", this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
         }
-
+        
+        //Have a chance to spawn fire blocks 
+        Random random = new Random();
+        if(random.nextInt(100) == 0)
+        {
+        	this.worldObj.setBlock((int)posX, (int)posY, (int)posZ, 51);
+        }
+        //
+        
         super.onLivingUpdate();
     }
 

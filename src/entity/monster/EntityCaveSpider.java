@@ -39,17 +39,17 @@ public class EntityCaveSpider extends EntitySpider
         {
             if (par1Entity instanceof EntityLiving)
             {
-                byte b0 = 0;
+                byte b0 = 3; //Default b0 = 0;
 
                 if (this.worldObj.difficultySetting > 1)
                 {
                     if (this.worldObj.difficultySetting == 2)
                     {
-                        b0 = 7;
+                        b0 = 8; //Default b0 = 7;
                     }
                     else if (this.worldObj.difficultySetting == 3)
                     {
-                        b0 = 15;
+                        b0 = 16; //Default b0 = 15;
                     }
                 }
                 
@@ -66,7 +66,7 @@ public class EntityCaveSpider extends EntitySpider
                     switch(random.nextInt(5))
                 	{
                 	case 0:
-                		((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.hunger.id, b0 * 20, random.nextInt(11) + 4)); break; //Hunger V - XV (0 == I) 
+                		((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.hunger.id, b0 * 20, random.nextInt(6) + 4)); break; //Hunger V - X (0 == I) 
                 	case 1:
 	                    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.confusion.id, b0 * 20, random.nextInt(4))); break; //Nausea I-IV (0 == I)
                 	case 2:
