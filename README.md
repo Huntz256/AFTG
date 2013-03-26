@@ -2,7 +2,6 @@ AFTG
 ====
 This is the source code for a minecraft mod that greatly increases its difficulty.  
 Verison Alpha V0.8 for MC 1.5.1.  
-(This is my first mod.)
 
 Implemented Features 
 ---------------------
@@ -24,9 +23,9 @@ Implemented Features
 -Cave Spider venom, specifically, can cause temporary blindness, nausea, hunger, weakness, slowness, and/or death.  
 -Cave Spiders poison on any difficulty; poison length slightly increased.  
 -Zombie Pigman are always angry.   
--Ghast fireballs are 2x more powerful.  
+-Ghast fireballs are 2x as powerful.  
 -Ghast firerate is increased.  
--Magma Slimes health is 2x normal.  
+-Magma Slime's health is 2x normal.  
 -Witches are slightly smarter. (*)  
 -Silverfish give brief Weakness/Nausea effects.  
 -Roses do damage on contact due to their sharp thorns.  
@@ -37,18 +36,18 @@ Implemented Features
 
 (*) This feature may not work for one reason or another.
 
-How to Install
+Installation
 --------------
-Assuming you already have installed Minecraft 1.5.1, you have a clean minecraft.jar, and you fully understand the risks of trying out a work in progress mod from a newbie coder...
+This all assumes you already have installed Minecraft 1.5.1 and you have a clean minecraft.jar. This is a work in progress mod and it is my first mod; I don't know how much compatible it is with other mods.  
 
 Non-Modders:  
 1. Download Forge 7.7.0.605 here: 
 http://files.minecraftforge.net/minecraftforge/minecraftforge-universal-1.5.1-7.7.0.605.zip  
-2. Download AFTG here: https://dl.dropbox.com/s/5szx0282d4yj98y/%5B1.5.1%5D%20AFTG%20v0.8.zip?token_hash=AAGoEj3P7mBcEmwElVpm2YSGK-9RrNUjwrKWYKU4qRyNxA&dl=1
+2. Download AFTG here: https://dl.dropbox.com/s/5szx0282d4yj98y/%5B1.5.1%5D%20AFTG%20v0.8.zip?token_hash=AAGoEj3P7mBcEmwElVpm2YSGK-9RrNUjwrKWYKU4qRyNxA&dl=1  
 3. Download and start Magic Launcher here: http://www.minecraftforum.net/topic/939149-launcher-magic-launcher-100-mods-options-news/  
 4. Click Setup, click Add, and select the downloaded files from steps 1 and 2.  
 5. Click OK and login!  
-6. Create a NEW world (highly recommended) and play. 
+6. Create a NEW world and play. 
 
 Modders:  
 (Assuming you use Eclipse.)  
