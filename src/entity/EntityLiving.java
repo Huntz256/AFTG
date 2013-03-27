@@ -62,13 +62,13 @@ public abstract class EntityLiving extends Entity
      * An array of probabilities that determines whether a random enchantment should be added to the held item. Indexed
      * by difficulty.
      */
-    private static final float[] enchantmentProbability = new float[] {0.0F, 0.5F, 1F, 1F}; //Def {0.0F, 0.0F, 0.1F, 0.2F}
+    private static float[] enchantmentProbability = new float[] {0.0F, 0.5F, 0.7F, 1F}; //Def {0.0F, 0.0F, 0.1F, 0.2F}
 
     /** Probability to get enchanted armor */
-    private static final float[] armorEnchantmentProbability = new float[] {0.0F, 0.1F, 0.5F, 1F}; //Def {0.0F, 0.0F, 0.25F, 0.5F}
+    private static float[] armorEnchantmentProbability = new float[] {0.0F, 0.2F, 0.4F, 1F}; //Def {0.0F, 0.0F, 0.25F, 0.5F}
 
     /** Probability to get armor */
-    private static final float[] armorProbability = new float[] {0.0F, 0.5F, 1F, 1F}; //Def {0.0F, 0.0F, 0.05F, 0.02F}
+    private static float[] armorProbability = new float[] {0.0F, 0.5F, 0.8F, 1F}; //Def {0.0F, 0.0F, 0.05F, 0.02F}
 
     /** Probability to pick up loot */
     public static final float[] pickUpLootProability = new float[] {0.0F, 0.5F, 1F, 1F}; //Def {0.0F, 0.1F, 0.15F, 0.45F}
@@ -2801,10 +2801,26 @@ public abstract class EntityLiving extends Entity
      */
     protected void addRandomArmor()
     {
-        if (this.rand.nextFloat() < armorProbability[this.worldObj.difficultySetting])
+    	//
+    	float newArmorProbability = 0.75F; 
+    	if(this.worldObj.difficultySetting == 0) 
+    	{
+    		newArmorProbability = 0F;
+    	}
+    	else if(this.worldObj.difficultySetting == 1) 
+    	{
+    		newArmorProbability = 0.4F;
+    	}
+    	else if(this.worldObj.difficultySetting == 3) 
+    	{
+    		newArmorProbability = 1F;
+    	}
+    	//
+    	
+        if (this.rand.nextFloat() < newArmorProbability) //
         {
             int i = this.rand.nextInt(2);
-            float f = this.worldObj.difficultySetting == 3 ? 0.04F : 0.08F; //Def 0.1F : 0.25F
+            float f = this.worldObj.difficultySetting == 3 ? 0.1F : 0.25F; 
 
             if (this.rand.nextFloat() < 0.095F)
             {
@@ -2840,7 +2856,7 @@ public abstract class EntityLiving extends Entity
                     }
                 }
             }
-        }
+    	}
     }
 
     /**
@@ -2994,7 +3010,27 @@ public abstract class EntityLiving extends Entity
 
     protected void func_82162_bC()
     {
-        if (this.getHeldItem() != null && this.rand.nextFloat() < enchantmentProbability[this.worldObj.difficultySetting])
+    	//
+    	float newEnchantmentProbability = 0.7F, newArmorEnchantmentProbability = 0.4F;
+    	if(this.worldObj.difficultySetting == 0) 
+    	{
+    		newEnchantmentProbability = 0F;
+    		newArmorEnchantmentProbability = 0F;
+    	}
+    	else if(this.worldObj.difficultySetting == 1) 
+    	{
+    		newEnchantmentProbability = 0.5F;
+    		newArmorEnchantmentProbability = 0.2F;
+    	}
+    	else if(this.worldObj.difficultySetting == 3) 
+    	{
+    		newEnchantmentProbability = 1F;
+    		newArmorEnchantmentProbability = 1F;
+    	}
+    	//
+
+        
+        if (this.getHeldItem() != null && this.rand.nextFloat() < newEnchantmentProbability)
         {
             EnchantmentHelper.addRandomEnchantment(this.rand, this.getHeldItem(), 5 + this.worldObj.difficultySetting * this.rand.nextInt(6));
         }
@@ -3003,7 +3039,7 @@ public abstract class EntityLiving extends Entity
         {
             ItemStack itemstack = this.getCurrentArmor(i);
 
-            if (itemstack != null && this.rand.nextFloat() < armorEnchantmentProbability[this.worldObj.difficultySetting])
+            if (itemstack != null && this.rand.nextFloat() < newArmorEnchantmentProbability)
             {
                 EnchantmentHelper.addRandomEnchantment(this.rand, itemstack, 5 + this.worldObj.difficultySetting * this.rand.nextInt(6));
             }

@@ -164,7 +164,7 @@ public class EntityGhast extends EntityFlying implements IMob
                     entitylargefireball.posY = this.posY + (double)(this.height / 2.0F) + 0.5D;
                     entitylargefireball.posZ = this.posZ + vec3.zCoord * d8;
                     this.worldObj.spawnEntityInWorld(entitylargefireball);
-                    this.attackCounter = -5; //Def -40
+                    this.attackCounter = -40;
                 }
             }
             else if (this.attackCounter > 0)

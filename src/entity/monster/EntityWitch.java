@@ -46,7 +46,7 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
         this.tasks.addTask(3, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 64.0F, 0, true)); //Default 16.0F 
-        this.experienceValue = 10; //Def 5
+        this.experienceValue = 15; //Def 5
     }
 
     protected void entityInit()

@@ -16,6 +16,7 @@ public class EntityCaveSpider extends EntitySpider
         super(par1World);
         this.texture = "/mob/cavespider.png";
         this.setSize(0.7F, 0.5F);
+        this.experienceValue = 15; //
     }
 
     public int getMaxHealth()
@@ -58,25 +59,26 @@ public class EntityCaveSpider extends EntitySpider
                 	
                     ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.poison.id, b0 * 20, 0));
  
-                    //Apply blindness + hunger; apply an additional random negative effect from the following; then apply water breathing
-                    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.blindness.id, b0 * 20, 1)); 
+                    //Apply hunger IV; apply an additional random negative effect from the following; then apply fire resistance
                     ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.hunger.id, b0 * 20, 3));
                     
                     Random random = new Random();
-                    switch(random.nextInt(5))
+                    switch(random.nextInt(7))
                 	{
                 	case 0:
                 		((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.hunger.id, b0 * 20, random.nextInt(6) + 4)); break; //Hunger V - X (0 == I) 
                 	case 1:
-	                    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.confusion.id, b0 * 20, random.nextInt(4))); break; //Nausea I-IV (0 == I)
+	                    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.confusion.id, b0 * 20, random.nextInt(4))); break; //Nausea I-IV 
                 	case 2:
-	                    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, b0 * 20, random.nextInt(4))); break; //Slowness I-IV (0 == I)
+	                    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, b0 * 20, random.nextInt(4))); break; //Slowness I-IV 
                 	case 3:
-	                    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.digSlowdown.id, b0 * 20, random.nextInt(4))); break; //I-IV (0 == I)
+	                    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.digSlowdown.id, b0 * 20, random.nextInt(4))); break; //I-IV 
                 	case 4:
-                		((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, b0 * 20, random.nextInt(2))); break; //Weakness I-II (0 == I)
+                		((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, b0 * 20, random.nextInt(2))); break; //Weakness I-II 
+                	case 5: case 6:
+                		((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.blindness.id, b0 * 20, 1)); break; //Blindness II 
                 	}
-                    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.waterBreathing.id, b0 * 20, 2));
+                    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.fireResistance.id, b0 * 20, 1)); //Fire Resistance II
                     //
                 }
             }

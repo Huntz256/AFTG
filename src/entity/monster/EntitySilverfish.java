@@ -13,6 +13,7 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class EntitySilverfish extends EntityMob
 {
@@ -107,7 +108,7 @@ public class EntitySilverfish extends EntityMob
             this.attackTime = 20;
             this.attackEntityAsMob(par1Entity);
             
-            ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 7 * 20, 1)); //Add 7s of Weakness II
+            ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 7 * 20, 0)); //Add 7s of Weakness I
             ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.confusion.id, 7 * 20, 4)); //Add 7s of Nausea V
         }
     }
@@ -225,22 +226,6 @@ public class EntitySilverfish extends EntityMob
     protected boolean isValidLightLevel()
     {
         return true;
-    }
-
-    /**
-     * Checks if the entity's current position is a valid location to spawn this entity.
-     */
-    public boolean getCanSpawnHere()
-    {
-        if (super.getCanSpawnHere())
-        {
-            EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
-            return entityplayer == null;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     /**

@@ -80,7 +80,7 @@ public class BlockGrass extends Block
     	        }
         		if(targetEntity != null)
         		{ 
-        			if(par5Random.nextInt(2) == 0)
+        			if(par5Random.nextInt(100) == 0)
         			{
 	        			//Spawn a stream of 8 arrows----------
 	        			for(int i = 0; i < 8; i++)
@@ -92,8 +92,8 @@ public class BlockGrass extends Block
 	        				arrow.setDamage(0.5);
 		        		            	
 			            	//Give arrow velocity, true damage, play sound, and spawn
-			                arrow.motionX = par5Random.nextGaussian() / 100; arrow.motionY = par5Random.nextFloat()*2 + 0.5F; arrow.motionZ = par5Random.nextGaussian() / 100;
-			                arrow.setDamage(arrow.motionY*par1World.difficultySetting + 1);
+			                arrow.motionX = par5Random.nextGaussian() / 100; arrow.motionY = par5Random.nextFloat() + 1F; arrow.motionZ = par5Random.nextGaussian() / 100;
+			                arrow.setDamage(arrow.motionY*par1World.difficultySetting + 1.5);
 			                par1World.playSoundAtEntity(arrow, "random.bow", 1.0F, 1.0F / (par5Random.nextFloat() * 0.4F + 0.8F));
 			                par1World.spawnEntityInWorld(arrow);
 	        			}

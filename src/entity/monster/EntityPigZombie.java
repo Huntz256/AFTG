@@ -25,6 +25,7 @@ public class EntityPigZombie extends EntityZombie
         this.texture = "/mob/pigzombie.png";
         this.moveSpeed = 0.52F; //Default: 0.5F
         this.isImmuneToFire = true;
+        this.experienceValue = 15; //
     }
 
     /**
@@ -87,7 +88,7 @@ public class EntityPigZombie extends EntityZombie
     }
 
     /**
-     * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
+     * Finds the closest player within 8 blocks to attack, or null if this Entity isn't interested in attacking
      * (Animals, Spiders at day, peaceful PigZombies).
      */
     protected Entity findPlayerToAttack()
@@ -100,7 +101,7 @@ public class EntityPigZombie extends EntityZombie
     		return null;
     	}
     	
-        EntityPlayer entityplayer = super.worldObj.getClosestVulnerablePlayerToEntity(this, 8.0D); 
+        EntityPlayer entityplayer = super.worldObj.getClosestVulnerablePlayerToEntity(this, 4.0D); 
         return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
     	
         //
@@ -121,7 +122,7 @@ public class EntityPigZombie extends EntityZombie
 
             if (entity instanceof EntityPlayer)
             {
-                List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(32.0D, 32.0D, 32.0D));
+                List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(8.0D, 8.0D, 8.0D)); //Default (32.0D, 32.0D, 32.0D)
 
                 for (int j = 0; j < list.size(); ++j)
                 {
@@ -176,7 +177,7 @@ public class EntityPigZombie extends EntityZombie
     }
 
     /**
-     * Drop 0-2 items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
+     * Drop 1-3 items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
      * par2 - Level of Looting used to kill this mob.
      */
     protected void dropFewItems(boolean par1, int par2)
@@ -243,14 +244,6 @@ public class EntityPigZombie extends EntityZombie
      */
     public int getAttackStrength(Entity par1Entity)
     {
-        ItemStack itemstack = this.getHeldItem();
-        int i = 2; //Default i = 5;
-
-        if (itemstack != null)
-        {
-            i += itemstack.getDamageVsEntity(this);
-        }
-
-        return i;
+        return this.getHeldItem().getDamageVsEntity(this); //
     }
 }

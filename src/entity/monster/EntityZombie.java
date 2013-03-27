@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Calendar;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -303,19 +304,111 @@ public class EntityZombie extends EntityMob
      */
     protected void addRandomArmor()
     {
-        super.addRandomArmor();
+    	//
+    	float newArmorProbability = 0.75F; 
+    	if(this.worldObj.difficultySetting == 0) 
+    	{
+    		newArmorProbability = 0F;
+    	}
+    	else if(this.worldObj.difficultySetting == 1) 
+    	{
+    		newArmorProbability = 0.4F;
+    	}
+    	else if(this.worldObj.difficultySetting == 3) 
+    	{
+    		newArmorProbability = 1F;
+    	}
+    	//
+    	
+        if (this.rand.nextFloat() < newArmorProbability) //
+        {
+            int i = this.rand.nextInt(2);
+            float f = this.worldObj.difficultySetting == 3 ? 0.1F : 0.25F; 
 
-        if (this.rand.nextFloat() < (this.worldObj.difficultySetting == 3 ? 0.05F : 0.01F))
+            if (this.rand.nextFloat() < 0.095F)
+            {
+                ++i;
+            }
+
+            if (this.rand.nextFloat() < 0.095F)
+            {
+                ++i;
+            }
+
+            if (this.rand.nextFloat() < 0.095F)
+            {
+                ++i;
+            }
+
+            for (int j = 3; j >= 0; --j)
+            {
+                ItemStack itemstack = this.getCurrentArmor(j);
+
+                if (j < 3 && this.rand.nextFloat() < f)
+                {
+                    break;
+                }
+
+                if (itemstack == null)
+                {
+                    Item item = getArmorItemForSlot(j + 1, i);
+
+                    if (item != null)
+                    {
+                        this.setCurrentItemOrArmor(j + 1, new ItemStack(item));
+                    }
+                }
+            }
+    	}
+    
+        if (this.rand.nextFloat() < (this.worldObj.difficultySetting == 3 ? 0.20F : 0.15F)) //Default 0.05F : 0.01F
         {
             int i = this.rand.nextInt(3);
 
-            if (i == 0)
+            if (i != 0) //Default i == 0
             {
                 this.setCurrentItemOrArmor(0, new ItemStack(Item.swordSteel));
             }
             else
             {
                 this.setCurrentItemOrArmor(0, new ItemStack(Item.shovelSteel));
+            }
+        }
+    }
+    
+    protected void func_82162_bC()
+    {
+    	//
+    	float newEnchantmentProbability = 0.7F, newArmorEnchantmentProbability = 0.4F;
+    	if(this.worldObj.difficultySetting == 0) 
+    	{
+    		newEnchantmentProbability = 0F;
+    		newArmorEnchantmentProbability = 0F;
+    	}
+    	else if(this.worldObj.difficultySetting == 1) 
+    	{
+    		newEnchantmentProbability = 0.5F;
+    		newArmorEnchantmentProbability = 0.2F;
+    	}
+    	else if(this.worldObj.difficultySetting == 3) 
+    	{
+    		newEnchantmentProbability = 1F;
+    		newArmorEnchantmentProbability = 1F;
+    	}
+    	//
+        
+        if (this.getHeldItem() != null && this.rand.nextFloat() < newEnchantmentProbability)
+        {
+            EnchantmentHelper.addRandomEnchantment(this.rand, this.getHeldItem(), 5 + this.worldObj.difficultySetting * this.rand.nextInt(6));
+        }
+
+        for (int i = 0; i < 4; ++i)
+        {
+            ItemStack itemstack = this.getCurrentArmor(i);
+
+            if (itemstack != null && this.rand.nextFloat() < newArmorEnchantmentProbability)
+            {
+                EnchantmentHelper.addRandomEnchantment(this.rand, itemstack, 5 + this.worldObj.difficultySetting * this.rand.nextInt(6));
             }
         }
     }

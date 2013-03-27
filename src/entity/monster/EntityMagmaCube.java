@@ -2,6 +2,7 @@ package net.minecraft.entity.monster;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
@@ -109,6 +110,17 @@ public class EntityMagmaCube extends EntitySlime
     {
         return super.getJumpDelay() * 4;
     }
+    
+    //Set the player on fire on collision
+    /**
+     * Called by a player entity when they collide with an entity
+     */
+    public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
+    {
+    	super.onCollideWithPlayer(par1EntityPlayer);
+    	par1EntityPlayer.setFire((int)(this.getSlimeSize() / 2));
+    }
+    //
 
     protected void func_70808_l()
     {

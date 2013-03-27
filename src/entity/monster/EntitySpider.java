@@ -48,7 +48,7 @@ public class EntitySpider extends EntityMob
     	super.onLivingUpdate();
     	
 	    Random random = new Random();
-	    if(random.nextInt(2000) == 0)
+	    if(random.nextInt(6000) == 0)
 	    {
 	    	this.worldObj.setBlock((int)posX, (int)posY, (int)posZ, 30);
 	    }
@@ -143,7 +143,13 @@ public class EntitySpider extends EntityMob
                     this.motionZ = d1 / (double)f2 * 0.5D * 0.800000011920929D + this.motionZ * 0.20000000298023224D;
                     this.motionY = 0.4000000059604645D;
                     
-                    
+                    //During its attack phase, the spider is more likely to spawn web.
+                    Random random = new Random();
+            	    if(random.nextInt(2000) == 0)
+            	    {
+            	    	this.worldObj.setBlock((int)posX, (int)posY, (int)posZ, 30);
+            	    }
+            	    //
                 }
             }    
             else 
@@ -151,10 +157,10 @@ public class EntitySpider extends EntityMob
                 super.attackEntity(par1Entity, par2);
             }
             
-            //Add Hunger IV and Poison I for 1 second
+            //Add Hunger III and Poison I for 1 second
             if (par2 < 1.5F)
             {
-                ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.hunger.id, 2 * 20, 3)); 
+                ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.hunger.id, 2 * 20, 2)); 
                 ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.poison.id, 2 * 20, 0));
             }
             //

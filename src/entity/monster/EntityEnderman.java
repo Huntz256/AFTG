@@ -65,7 +65,7 @@ public class EntityEnderman extends EntityMob
     }
 
     /**
-     * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
+     * Finds the closest player within 64 blocks to attack, or null if this Entity isn't interested in attacking
      * (Animals, Spiders at day, peaceful PigZombies).
      */
     protected Entity findPlayerToAttack()
@@ -463,7 +463,7 @@ public class EntityEnderman extends EntityMob
      */
     public int getAttackStrength(Entity par1Entity)
     {
-        return 7;
+        return 9; //Default 7
     }
 
     static

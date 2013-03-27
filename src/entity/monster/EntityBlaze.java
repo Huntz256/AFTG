@@ -9,6 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+
 import java.util.Random; //
 
 public class EntityBlaze extends EntityMob
@@ -127,8 +129,27 @@ public class EntityBlaze extends EntityMob
         }
         //
         
+       
+        
         super.onLivingUpdate();
     }
+    
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
+    public boolean getCanSpawnHere()
+    {
+    	//Blaze won't spawn if in Overworld and y coord is more than 24
+        if(posY > 24 && this.worldObj.getBiomeGenForCoords((int)posX, (int)posZ) != BiomeGenBase.hell) 
+        {
+        	return false;
+        }
+        else
+        {
+        	return super.getCanSpawnHere();
+        }
+    }
+    //
 
     /**
      * Basic mob attack. Default to touch of death in EntityCreature. Overridden by each mob to define their attack.
@@ -218,7 +239,12 @@ public class EntityBlaze extends EntityMob
 
             for (int k = 0; k < j; ++k)
             {
-                this.dropItem(Item.blazeRod.itemID, 1);
+            	//Only drop blaze rods if in the Nether
+            	if(this.worldObj.getBiomeGenForCoords((int)posX, (int)posZ) == BiomeGenBase.hell)
+            	{
+            		this.dropItem(Item.blazeRod.itemID, 1);
+            	}
+            	//
             }
         }
     }

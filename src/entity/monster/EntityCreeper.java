@@ -33,10 +33,10 @@ public class EntityCreeper extends EntityMob
      * The amount of time since the creeper was close enough to the player to ignite
      */
     private int timeSinceIgnited;
-    private int fuseTime = 30;
+    private int fuseTime = 40; //Default 30
 
     /** Explosion radius for this creeper. */
-    private int explosionRadius = 5; //Def 3
+    private int explosionRadius = 4; //Def 3
 
     public EntityCreeper(World par1World)
     {
@@ -203,8 +203,8 @@ public class EntityCreeper extends EntityMob
             this.dropItem(i, 1);
         }
         
-        //Explode on death with radius 1F
-        EntityTNTPrimed tnt = new EntityTNTPrimed(worldObj, posX, posY, posZ, this, 2.0F);
+        //Spawn primed tnt with explosion radius 1F
+        EntityTNTPrimed tnt = new EntityTNTPrimed(worldObj, posX, posY, posZ, this, 1.0F);
         worldObj.spawnEntityInWorld(tnt);
         //
         
