@@ -45,7 +45,7 @@ Roses do damage on contact due to their sharp thorns. Fire spreads more easily. 
 
 Installation
 --------------
-This all assumes you already have installed Minecraft 1.5.1 and you have a clean minecraft.jar. This is a work in progress mod and it is my first mod; I don't know how much compatible it is with other mods.  
+This all assumes you already have installed Minecraft 1.5.1 and you have a clean minecraft.jar. This is a work in progress mod and it is my first mod. I'm not sure how compatible it is with other mods, but it has tested positive to work as normal with all the mods I have tried with it so far: Optifine, Rei's Minimap, and Single Player Commands.
 
 Non-Modders:  
 1. Download Forge 7.7.0.605 here: 
