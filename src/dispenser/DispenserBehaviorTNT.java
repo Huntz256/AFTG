@@ -19,7 +19,9 @@ final class DispenserBehaviorTNT extends BehaviorDefaultDispenseItem
         int i = par1IBlockSource.getXInt() + enumfacing.getFrontOffsetX();
         int j = par1IBlockSource.getYInt() + enumfacing.getFrontOffsetY();
         int k = par1IBlockSource.getZInt() + enumfacing.getFrontOffsetZ();
-        EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, (double)((float)i + 0.5F), (double)((float)j + 0.5F), (double)((float)k + 0.5F), (EntityLiving)null, 4.0F); //
+        
+        //Explosion radius of TNT can now vary as seen in EntityCreeper.java, default: 4.0F
+        EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, (double)((float)i + 0.5F), (double)((float)j + 0.5F), (double)((float)k + 0.5F), (EntityLiving)null, 4.0F); 
         world.spawnEntityInWorld(entitytntprimed);
         --par2ItemStack.stackSize;
         return par2ItemStack;

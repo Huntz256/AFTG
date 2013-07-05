@@ -15,12 +15,14 @@ import net.minecraft.world.World;
 
 public class EntitySpider extends EntityMob
 {
+	private int webAmount = 6 / 2; //Max # of web blocks able to be spun; this is 6 even though the value of the variable is 3
+	
     public EntitySpider(World par1World)
     {
         super(par1World);
         this.texture = "/mob/spider.png";
         this.setSize(1.4F, 0.9F);
-        this.moveSpeed = 1.3F; //Def: 0.8F
+        this.moveSpeed = 1.3F; //Default: 0.8F 
     }
 
     protected void entityInit()
@@ -47,11 +49,19 @@ public class EntitySpider extends EntityMob
     {
     	super.onLivingUpdate();
     	
-	    Random random = new Random();
-	    if(random.nextInt(6000) == 0)
-	    {
-	    	this.worldObj.setBlock((int)posX, (int)posY, (int)posZ, 30);
-	    }
+    	//If amount of web held is more than zero, have a chance to spawn web blocks given than that nothing is in the way
+    	if(this.webAmount > 0)	
+    	{
+		    Random random = new Random();
+		    if(random.nextInt(7000) == 0) 
+		    {
+		    	if(this.worldObj.getBlockId((int)posX, (int)posY, (int)posZ) == 0)
+		    	{
+			    	this.worldObj.setBlock((int)posX, (int)posY, (int)posZ, 30);
+			    	this.webAmount--;
+		    	}
+		    }    
+    	}
     }
     //
     
@@ -142,14 +152,6 @@ public class EntitySpider extends EntityMob
                     this.motionX = d0 / (double)f2 * 0.5D * 0.800000011920929D + this.motionX * 0.20000000298023224D;
                     this.motionZ = d1 / (double)f2 * 0.5D * 0.800000011920929D + this.motionZ * 0.20000000298023224D;
                     this.motionY = 0.4000000059604645D;
-                    
-                    //During its attack phase, the spider is more likely to spawn web.
-                    Random random = new Random();
-            	    if(random.nextInt(2000) == 0)
-            	    {
-            	    	this.worldObj.setBlock((int)posX, (int)posY, (int)posZ, 30);
-            	    }
-            	    //
                 }
             }    
             else 
@@ -157,6 +159,7 @@ public class EntitySpider extends EntityMob
                 super.attackEntity(par1Entity, par2);
             }
             
+            //Spiders now have... poison!
             //Add Hunger III and Poison I for 1 second
             if (par2 < 1.5F)
             {
@@ -176,12 +179,42 @@ public class EntitySpider extends EntityMob
     }
 
     /**
-     * Drop 0-2 items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
+     * Drop items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
      * par2 - Level of Looting used to kill this mob.
      */
     protected void dropFewItems(boolean par1, int par2)
     {
-        super.dropFewItems(par1, par2);
+        //Default: super.dropFewItems(par1, par2 + 1);
+    	//Spiders now drop items depending on the amount of web held
+    	
+    	int j = this.getDropItemId();
+    	
+    	if (j > 0)
+        {	
+    		//If web amount is more than zero...
+	    		//If looting level is above zero, let the Spider drop 0 to k amount of string, where k is the amount of web it has (0 to 6).
+	    		//Otherwise let the Spider drop 0 to k*2 amount of string (0 to 3).
+    		int k;
+    		if((this.webAmount * 2) > 0)
+			{
+	    		if(par2 == 0) 
+	    		{
+	    			k = this.rand.nextInt((this.webAmount * 2));
+	    		}
+	    		else
+	    		{
+	    			k = this.rand.nextInt((this.webAmount * (2 + par2))); 
+	    		}
+			
+    		
+	    		//Drop string
+		    	for (int l = 0; l < k; ++l)
+		        {
+		    		this.dropItem(j, 1);
+		        }
+			}
+        }
+    	//
 
         if (par1 && (this.rand.nextInt(3) == 0 || this.rand.nextInt(1 + par2) > 0))
         {
@@ -259,13 +292,183 @@ public class EntitySpider extends EntityMob
      */
     public void initCreature()
     {
-        if (this.worldObj.rand.nextInt(100) == 0)
+        //if (this.worldObj.rand.nextInt(100) == 0)
+    	//Spiders now have an increased chance of having other monsters mounted on top of them
+    	//By default, only one skeleton can mount. Now, many monsters can mount.
+    	//A spider mounted on top of a spider appears to be a conjoined spider. This is not a bug, it's a feature.
+    	
+    	int chance = 10;
+        if (this.worldObj.rand.nextInt(chance) == 0)
         {
             EntitySkeleton entityskeleton = new EntitySkeleton(this.worldObj);
             entityskeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
             entityskeleton.initCreature();
             this.worldObj.spawnEntityInWorld(entityskeleton);
             entityskeleton.mountEntity(this);
+            
+            if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntitySkeleton entityskeleton1 = new EntitySkeleton(this.worldObj);
+                entityskeleton1.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityskeleton1.initCreature();
+                this.worldObj.spawnEntityInWorld(entityskeleton1);
+                entityskeleton1.mountEntity(entityskeleton);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntityCreeper entitycreeper = new EntityCreeper(this.worldObj);
+                entitycreeper.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entitycreeper.initCreature();
+                this.worldObj.spawnEntityInWorld(entitycreeper);
+                entitycreeper.mountEntity(entityskeleton);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntityZombie entityzombie = new EntityZombie(this.worldObj);
+                entityzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityzombie.initCreature();
+                this.worldObj.spawnEntityInWorld(entityzombie);
+                entityzombie.mountEntity(entityskeleton);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntitySpider entityspider = new EntitySpider(this.worldObj);
+                entityspider.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityspider.initCreature();
+                this.worldObj.spawnEntityInWorld(entityspider);
+                entityspider.mountEntity(entityskeleton);
+            }
         }
+        
+        //
+        else if (this.worldObj.rand.nextInt(chance) == 0)
+        {
+            EntityCreeper entitycreeper = new EntityCreeper(this.worldObj);
+            entitycreeper.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+            entitycreeper.initCreature();
+            this.worldObj.spawnEntityInWorld(entitycreeper);
+            entitycreeper.mountEntity(this);
+            
+            if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntitySkeleton entityskeleton = new EntitySkeleton(this.worldObj);
+                entityskeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityskeleton.initCreature();
+                this.worldObj.spawnEntityInWorld(entityskeleton);
+                entityskeleton.mountEntity(entitycreeper);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntityCreeper entitycreeper1 = new EntityCreeper(this.worldObj);
+                entitycreeper1.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entitycreeper1.initCreature();
+                this.worldObj.spawnEntityInWorld(entitycreeper1);
+                entitycreeper1.mountEntity(entitycreeper);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntityZombie entityzombie = new EntityZombie(this.worldObj);
+                entityzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityzombie.initCreature();
+                this.worldObj.spawnEntityInWorld(entityzombie);
+                entityzombie.mountEntity(entitycreeper);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntitySpider entityspider = new EntitySpider(this.worldObj);
+                entityspider.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityspider.initCreature();
+                this.worldObj.spawnEntityInWorld(entityspider);
+                entityspider.mountEntity(entitycreeper);
+            }
+        }
+        
+        else if (this.worldObj.rand.nextInt(chance) == 0)
+        {
+            EntityZombie entityzombie = new EntityZombie(this.worldObj);
+            entityzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+            entityzombie.initCreature();
+            this.worldObj.spawnEntityInWorld(entityzombie);
+            entityzombie.mountEntity(this);
+            
+            if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntitySkeleton entityskeleton = new EntitySkeleton(this.worldObj);
+                entityskeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityskeleton.initCreature();
+                this.worldObj.spawnEntityInWorld(entityskeleton);
+                entityskeleton.mountEntity(entityzombie);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntityCreeper entitycreeper = new EntityCreeper(this.worldObj);
+                entitycreeper.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entitycreeper.initCreature();
+                this.worldObj.spawnEntityInWorld(entitycreeper);
+                entitycreeper.mountEntity(entityzombie);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntityZombie entityzombie1 = new EntityZombie(this.worldObj);
+                entityzombie1.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityzombie1.initCreature();
+                this.worldObj.spawnEntityInWorld(entityzombie1);
+                entityzombie1.mountEntity(entityzombie);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntitySpider entityspider = new EntitySpider(this.worldObj);
+                entityspider.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityspider.initCreature();
+                this.worldObj.spawnEntityInWorld(entityspider);
+                entityspider.mountEntity(entityzombie);
+            }
+        }
+
+        else if (this.worldObj.rand.nextInt(chance) == 0)
+        {
+            EntitySpider entityspider = new EntitySpider(this.worldObj);
+            entityspider.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+            entityspider.initCreature();
+            this.worldObj.spawnEntityInWorld(entityspider);
+            entityspider.mountEntity(this);
+            
+            if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntitySkeleton entityskeleton = new EntitySkeleton(this.worldObj);
+                entityskeleton.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityskeleton.initCreature();
+                this.worldObj.spawnEntityInWorld(entityskeleton);
+                entityskeleton.mountEntity(entityspider);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntityCreeper entitycreeper = new EntityCreeper(this.worldObj);
+                entitycreeper.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entitycreeper.initCreature();
+                this.worldObj.spawnEntityInWorld(entitycreeper);
+                entitycreeper.mountEntity(entityspider);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntityZombie entityzombie = new EntityZombie(this.worldObj);
+                entityzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityzombie.initCreature();
+                this.worldObj.spawnEntityInWorld(entityzombie);
+                entityzombie.mountEntity(entityspider);
+            }
+            else if (this.worldObj.rand.nextInt(chance) == 0)
+            {
+                EntitySpider entityspider1 = new EntitySpider(this.worldObj);
+                entityspider1.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                entityspider1.initCreature();
+                this.worldObj.spawnEntityInWorld(entityspider1);
+                entityspider1.mountEntity(entityspider);
+                
+            }
+        }
+
+        //
     }
+    
 }

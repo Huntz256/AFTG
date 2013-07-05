@@ -20,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import java.util.Random; //
 
 public class EntityCreeper extends EntityMob
 {
@@ -33,11 +34,12 @@ public class EntityCreeper extends EntityMob
      * The amount of time since the creeper was close enough to the player to ignite
      */
     private int timeSinceIgnited;
-    private int fuseTime = 40; //Default 30
+    private int fuseTime = 40; //Default: 30
 
     /** Explosion radius for this creeper. */
-    private int explosionRadius = 4; //Def 3
+    private int explosionRadius = 4;
 
+    //Changes made: creepers are now scared of skeletons, and they watch the player from an increased distance.
     public EntityCreeper(World par1World)
     {
         super(par1World);
@@ -45,11 +47,12 @@ public class EntityCreeper extends EntityMob
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAICreeperSwell(this));
         this.tasks.addTask(3, new EntityAIAvoidEntity(this, EntityOcelot.class, 6.0F, 0.25F, 0.3F));
+        this.tasks.addTask(3, new EntityAIAvoidEntity(this, EntitySkeleton.class, 2.0F, 0.25F, 0.3F)); //Creepers are now scared of Skeletons
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 0.25F, false));
         this.tasks.addTask(5, new EntityAIWander(this, 0.2F));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 32.0F)); //Default 8.0F 
+        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 32.0F)); //Default: 8.0F 
         this.tasks.addTask(6, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 64.0F, 0, true)); //Default 16.0F 
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 64.0F, 0, true)); //Default: 16.0F 
         this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
     }
 
@@ -147,8 +150,31 @@ public class EntityCreeper extends EntityMob
             if (this.timeSinceIgnited < 0)
             {
                 this.timeSinceIgnited = 0;
-            }
-
+            }  
+            
+            //
+            //Random rand = new Random();
+            //EntityPlayer targetedEntity = this.worldObj.getClosestVulnerablePlayerToEntity(this, 32.0D); 
+            //if(this.getPowered() == true && targetedEntity != null)
+           // {
+            	//Spawn wave of multiple 3F TNT in random directions
+            	//if(rand.nextInt(this.health * 20 + 20) == 0)
+            	//{
+	            //	for(int i1 = 0; i1 < 16; i1++)
+	            //	{
+	            //		worldObj.spawnEntityInWorld(new EntityTNTPrimed(worldObj, posX, posY, posZ, this, 3F, 80, rand.nextFloat()*2 - rand.nextFloat()*2, rand.nextFloat()*3, rand.nextFloat()*2 - rand.nextFloat()*2 ));
+	            //	}
+            	//}
+            	
+            	//Spawn a TNT that shoots toward player
+            	//if(rand.nextInt(100) == 0)
+            	//{
+            	//	worldObj.spawnEntityInWorld(new EntityTNTPrimed(worldObj, posX, posY, posZ, this, 1.0F, (targetedEntity.posX - posX) * 1, 0.6F, (targetedEntity.posZ - posZ) * 1));
+            	//}
+        	//}
+            //
+            
+            
             if (this.timeSinceIgnited >= this.fuseTime)
             {
                 this.timeSinceIgnited = this.fuseTime;
@@ -203,9 +229,20 @@ public class EntityCreeper extends EntityMob
             this.dropItem(i, 1);
         }
         
-        //Spawn primed tnt with explosion radius 1F
-        EntityTNTPrimed tnt = new EntityTNTPrimed(worldObj, posX, posY, posZ, this, 1.0F);
-        worldObj.spawnEntityInWorld(tnt);
+        //Creepers now can spawn primed half-fused tnt upon death with explosion radius 2F or 3F 
+        //If powered, probability of spawning tnt is 100%, otherwise, 1/3.
+        if (this.getPowered())
+        {
+        	worldObj.spawnEntityInWorld(new EntityTNTPrimed(worldObj, posX, posY, posZ, this, 3.0F, 40));
+        }
+        else
+        {
+        	//33.3% chance to spawn primed TNT
+        	if(new Random().nextInt(3) == 0)
+        	{
+        		worldObj.spawnEntityInWorld(new EntityTNTPrimed(worldObj, posX, posY, posZ, this, 2.0F, 40));
+        	}
+        }
         //
         
 
@@ -258,6 +295,16 @@ public class EntityCreeper extends EntityMob
     {
         this.dataWatcher.updateObject(16, Byte.valueOf((byte)par1));
     }
+    
+    //
+    /**
+     * Sets the power state of creeper
+     */
+    public void setCreeperPowerState(int par1)
+    {
+        this.dataWatcher.updateObject(17, Byte.valueOf((byte)par1));
+    }
+    //
 
     /**
      * Called when a lightning bolt hits the entity.
@@ -266,5 +313,21 @@ public class EntityCreeper extends EntityMob
     {
         super.onStruckByLightning(par1EntityLightningBolt);
         this.dataWatcher.updateObject(17, Byte.valueOf((byte)1));
+    }
+    
+    //Turn Creeper into charged creeper
+    public void setCreeperCharged()
+    {
+        this.dataWatcher.updateObject(17, Byte.valueOf((byte)1));
+    }
+    //
+    
+    /**
+     * Drop 1-3 items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
+     * par2 - Level of Looting used to kill this mob.
+     */
+    protected void dropFewItems(boolean par1, int par2)
+    {
+    	super.dropFewItems(par1, par2 + 1);
     }
 }

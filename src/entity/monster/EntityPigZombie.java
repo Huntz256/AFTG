@@ -25,7 +25,7 @@ public class EntityPigZombie extends EntityZombie
         this.texture = "/mob/pigzombie.png";
         this.moveSpeed = 0.52F; //Default: 0.5F
         this.isImmuneToFire = true;
-        this.experienceValue = 15; //
+        this.experienceValue = 15; //Increased exp for Nether Mobs as they are more powerful
     }
 
     /**
@@ -93,9 +93,9 @@ public class EntityPigZombie extends EntityZombie
      */
     protected Entity findPlayerToAttack()
     {
-        //Default  return this.angerLevel == 0 ? null : super.findPlayerToAttack();
+    	//Pig Zombies by default only attack the player if they are angry. Now they can attack if the player gets too close to them (4 blocks).
+        //Default:  return this.angerLevel == 0 ? null : super.findPlayerToAttack();
         
-    	//
     	if(this.angerLevel == 0)
     	{
     		return null;
@@ -197,6 +197,8 @@ public class EntityPigZombie extends EntityZombie
             this.dropItem(Item.goldNugget.itemID, 1);
         }
         
+        
+        //More items are dropped to balance out the increased hostility of the monster
         this.dropItem(Item.rottenFlesh.itemID, 1); //
         this.dropItem(Item.goldNugget.itemID, 1); //
     }
@@ -244,6 +246,15 @@ public class EntityPigZombie extends EntityZombie
      */
     public int getAttackStrength(Entity par1Entity)
     {
-        return this.getHeldItem().getDamageVsEntity(this); //
+    	//Attack strength 5 if holding nothing
+    	if(this.getHeldItem() == null)
+    	{
+    		return 5;
+    	}
+    	else
+    	{
+    		return this.getHeldItem().getDamageVsEntity(this); 
+    	}
+    	//
     }
 }

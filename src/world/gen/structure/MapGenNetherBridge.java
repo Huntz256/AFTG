@@ -21,8 +21,9 @@ public class MapGenNetherBridge extends MapGenStructure
         this.spawnList.add(new SpawnListEntry(EntitySkeleton.class, 10, 4, 4));
         this.spawnList.add(new SpawnListEntry(EntityMagmaCube.class, 3, 4, 4));
         
-        this.spawnList.add(new SpawnListEntry(EntityWitch.class, 5, 1, 1)); //
-        this.spawnList.add(new SpawnListEntry(EntityCaveSpider.class, 5, 1, 3)); //
+        //Witches and Cave Spiders now can spawn on Nether Bridges
+        this.spawnList.add(new SpawnListEntry(EntityWitch.class, 10, 2, 3)); //
+        this.spawnList.add(new SpawnListEntry(EntityCaveSpider.class, 10, 4, 4)); //
     }
 
     public List getSpawnList()

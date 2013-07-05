@@ -66,7 +66,7 @@ public class BlockGrass extends Block
             }
             else if (par1World.getBlockLightValue(par2, par3 + 1, par4) >= 9)
             {
-            	//Arrows of doom-------------------------------------------
+            	//Grass now has a chance to spawn arrows of doom (Arrows From The Ground)-------------------------------------------
         		List list = par1World.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getAABBPool().getAABB((double)((float)par2 - 2F), (double)par3, (double)((float)par4 - 2F), (double)((float)(par2 + 1) + 2F), (double)par3 + 3D, (double)((float)(par4 + 2F))));
         		EntityLiving targetEntity = null;
         		if (!list.isEmpty())

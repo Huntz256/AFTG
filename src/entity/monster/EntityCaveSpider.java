@@ -16,7 +16,7 @@ public class EntityCaveSpider extends EntitySpider
         super(par1World);
         this.texture = "/mob/cavespider.png";
         this.setSize(0.7F, 0.5F);
-        this.experienceValue = 15; //
+        this.experienceValue = 15; //Increased EXP to balance the buffs
     }
 
     public int getMaxHealth()
@@ -40,17 +40,19 @@ public class EntityCaveSpider extends EntitySpider
         {
             if (par1Entity instanceof EntityLiving)
             {
-                byte b0 = 3; //Default b0 = 0;
+            	//Now has increased poison duration and more negative effects
+            	
+                byte b0 = 3; //Default: b0 = 0;
 
                 if (this.worldObj.difficultySetting > 1)
                 {
                     if (this.worldObj.difficultySetting == 2)
                     {
-                        b0 = 8; //Default b0 = 7;
+                        b0 = 8; //Default: b0 = 7;
                     }
                     else if (this.worldObj.difficultySetting == 3)
                     {
-                        b0 = 16; //Default b0 = 15;
+                        b0 = 16; //Default: b0 = 15;
                     }
                 }
                 

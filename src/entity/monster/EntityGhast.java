@@ -1,5 +1,6 @@
 package net.minecraft.entity.monster;
 
+import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +28,7 @@ public class EntityGhast extends EntityFlying implements IMob
     public int attackCounter = 0;
 
     /** The explosion radius of spawned fireballs. */
-    private int explosionStrength = 2; //Def 1
+    private int explosionStrength = 2; //Default: 1
 
     public EntityGhast(World par1World)
     {
@@ -35,7 +36,7 @@ public class EntityGhast extends EntityFlying implements IMob
         this.texture = "/mob/ghast.png";
         this.setSize(4.0F, 4.0F);
         this.isImmuneToFire = true;
-        this.experienceValue = 20; //Def 5
+        this.experienceValue = 25; //Nether mobs have increased EXP. Default: 5
     }
 
     /**
@@ -140,7 +141,7 @@ public class EntityGhast extends EntityFlying implements IMob
         if (this.targetedEntity != null && this.targetedEntity.getDistanceSqToEntity(this) < d4 * d4)
         {
             double d5 = this.targetedEntity.posX - this.posX;
-            double d6 = this.targetedEntity.boundingBox.minY + (double)(this.targetedEntity.height / 2.0F) - (this.posY + (double)(this.height / 2.0F));
+            double d6 = this.targetedEntity.boundingBox.minY + (double)(this.targetedEntity.height / 2.0F) - (this.posY + (double)(this.height / 2.0F)) - 2; //More accuracte (?) targeting
             double d7 = this.targetedEntity.posZ - this.posZ;
             this.renderYawOffset = this.rotationYaw = -((float)Math.atan2(d5, d7)) * 180.0F / (float)Math.PI;
 
@@ -164,7 +165,26 @@ public class EntityGhast extends EntityFlying implements IMob
                     entitylargefireball.posY = this.posY + (double)(this.height / 2.0F) + 0.5D;
                     entitylargefireball.posZ = this.posZ + vec3.zCoord * d8;
                     this.worldObj.spawnEntityInWorld(entitylargefireball);
-                    this.attackCounter = -40;
+                    this.attackCounter = -90 + this.worldObj.rand.nextInt(50) - this.worldObj.rand.nextInt(50); //More slow, varied attack speed. Default: -40
+                    
+                    //Ghasts now shoot multiple fireballs
+                    int randomInt = (int)(this.worldObj.rand.nextGaussian()*5 + 3); //# of fireballs is normally distributed with a mean of 5 and sd of 3.
+                    if(randomInt < 1) {randomInt = 1;} if(randomInt > 16) {randomInt = 16;}
+                    for(int i = 0; i < randomInt; i++)
+                    {
+                    	d5 = this.targetedEntity.posX - this.posX + this.worldObj.rand.nextGaussian() * 5; //5
+                        d6 = this.targetedEntity.boundingBox.minY + (double)(this.targetedEntity.height / 2.0F) - (this.posY + (double)(this.height / 2.0F)) + (this.worldObj.rand.nextGaussian() - 1) * 2;
+                        d7 = this.targetedEntity.posZ - this.posZ + this.worldObj.rand.nextGaussian() * 5; //5
+                        EntityLargeFireball entitylargefireball2 = new EntityLargeFireball(this.worldObj, this, d5, d6, d7);
+                        entitylargefireball2.field_92057_e = 1;
+                        d8 = 4.0D;
+                        vec3 = this.getLook(1.0F);
+                        entitylargefireball2.posX = this.posX + vec3.xCoord * d8;
+                        entitylargefireball2.posY = this.posY + (double)(this.height / 2.0F) + 0.5D;
+                        entitylargefireball2.posZ = this.posZ + vec3.zCoord * d8;
+                        this.worldObj.spawnEntityInWorld(entitylargefireball2);
+                    }
+                    //
                 }
             }
             else if (this.attackCounter > 0)

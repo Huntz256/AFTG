@@ -17,7 +17,7 @@ public abstract class EntityMob extends EntityCreature implements IMob
     public EntityMob(World par1World)
     {
         super(par1World);
-        this.experienceValue = 10; //Def 5
+        this.experienceValue = 10; //EntityMob mobs drop more EXP. Default: 5
     }
 
     /**
@@ -56,7 +56,7 @@ public abstract class EntityMob extends EntityCreature implements IMob
      */
     protected Entity findPlayerToAttack()
     {
-        EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, 64.0D); //Default (this, 16.0D);
+        EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, 64.0D); //Wider vision range. Default: (this, 16.0D);
         return entityplayer != null && this.canEntityBeSeen(entityplayer) ? entityplayer : null;
     }
 

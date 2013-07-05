@@ -27,7 +27,7 @@ public class EntityBlaze extends EntityMob
         super(par1World);
         this.texture = "/mob/fire.png";
         this.isImmuneToFire = true;
-        this.experienceValue = 15; //Def 10
+        this.experienceValue = 15; //Nether mobs give more exp. Default: 10
     }
 
     public int getMaxHealth()
@@ -121,7 +121,7 @@ public class EntityBlaze extends EntityMob
             this.worldObj.spawnParticle("largesmoke", this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D);
         }
         
-        //Have a chance to spawn fire blocks 
+        //Have a chance to spawn fire blocks in its path
         Random random = new Random();
         if(random.nextInt(100) == 0)
         {
@@ -139,8 +139,8 @@ public class EntityBlaze extends EntityMob
      */
     public boolean getCanSpawnHere()
     {
-    	//Blaze won't spawn if in Overworld and y coord is more than 24
-        if(posY > 24 && this.worldObj.getBiomeGenForCoords((int)posX, (int)posZ) != BiomeGenBase.hell) 
+    	//Blaze won't spawn in Overworld if y coord is more than 16
+        if(posY > 16 && this.worldObj.getBiomeGenForCoords((int)posX, (int)posZ) != BiomeGenBase.hell) 
         {
         	return false;
         }

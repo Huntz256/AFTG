@@ -1,5 +1,6 @@
 package net.minecraft.entity.monster;
 
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.entity.Entity;
@@ -27,7 +28,7 @@ public class EntitySilverfish extends EntityMob
         super(par1World);
         this.texture = "/mob/silverfish.png";
         this.setSize(0.3F, 0.7F);
-        this.moveSpeed = 0.8F; //Def 0.6F
+        this.moveSpeed = 0.8F; //Default: 0.6F
     }
 
     public int getMaxHealth()
@@ -50,7 +51,7 @@ public class EntitySilverfish extends EntityMob
      */
     protected Entity findPlayerToAttack()
     {
-        double d0 = 32.0D; ////Default 8.0F 
+        double d0 = 8.0F; 
         return this.worldObj.getClosestVulnerablePlayerToEntity(this, d0);
     }
 
@@ -108,9 +109,24 @@ public class EntitySilverfish extends EntityMob
             this.attackTime = 20;
             this.attackEntityAsMob(par1Entity);
             
-            ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 7 * 20, 0)); //Add 7s of Weakness I
-            ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.confusion.id, 7 * 20, 4)); //Add 7s of Nausea V
-        }
+
+            //Have a 10% chance to stun the entity
+            //if (this.worldObj.rand.nextInt(10) == 0)
+            //{
+	        //    ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 3 * 20, 99)); //Stun for 3 seconds
+            //}
+            
+            //Silverfish now has a 25% chance to weaken the entity
+            if (this.worldObj.rand.nextInt(4) == 0)
+            {
+	            ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 12 * 20, 0)); //Add Weakness I for 12s
+	            ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.confusion.id, 12 * 20, 99)); //Add Nausea 100 for 12s
+	            ((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.resistance.id, 12 * 20, 0)); //Add Resistance I for 12s
+            }
+            
+            //
+            
+         }    
     }
 
     /**
@@ -142,6 +158,7 @@ public class EntitySilverfish extends EntityMob
     {
         super.updateEntityActionState();
 
+        
         if (!this.worldObj.isRemote)
         {
             int i;
@@ -193,12 +210,14 @@ public class EntitySilverfish extends EntityMob
                 int l1 = this.rand.nextInt(6);
                 l = this.worldObj.getBlockId(i + Facing.offsetsXForSide[l1], j + Facing.offsetsYForSide[l1], k + Facing.offsetsZForSide[l1]);
 
+                
                 if (BlockSilverfish.getPosingIdByMetadata(l))
                 {
                     this.worldObj.setBlock(i + Facing.offsetsXForSide[l1], j + Facing.offsetsYForSide[l1], k + Facing.offsetsZForSide[l1], Block.silverfish.blockID, BlockSilverfish.getMetadataForBlockType(l), 3);
                     this.spawnExplosionParticle();
                     this.setDead();
                 }
+                
                 else
                 {
                     this.updateWanderPath();
@@ -209,6 +228,7 @@ public class EntitySilverfish extends EntityMob
                 this.entityToAttack = null;
             }
         }
+        
     }
 
     /**
@@ -227,6 +247,23 @@ public class EntitySilverfish extends EntityMob
     {
         return true;
     }
+    
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
+    public boolean getCanSpawnHere()
+    {
+    	//Silverfish will now spawn if y coordinate is more than 32
+        if(posY > 24) 
+        {
+        	return false;
+        }
+        else
+        {
+        	return super.getCanSpawnHere();
+        }
+    }
+    //
 
     /**
      * Returns the amount of damage a mob should deal.

@@ -35,22 +35,22 @@ import net.minecraft.world.WorldProviderHell;
 
 public class EntitySkeleton extends EntityMob implements IRangedAttackMob
 {
-    private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 0.25F, 20, 40, 15.0F); //Default 60, 15.0F);
+    private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 0.25F, 20, 50, 15.0F); //Default 60, 15.0F);
     private EntityAIAttackOnCollide aiAttackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.31F, false);
 
     public EntitySkeleton(World par1World)
     {
         super(par1World);
         this.texture = "/mob/skeleton.png";
-        this.moveSpeed = 0.28F; //Def 0.25F
+        this.moveSpeed = 0.28F; //Default: 0.25F
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIRestrictSun(this));
         this.tasks.addTask(3, new EntityAIFleeSun(this, this.moveSpeed));
         this.tasks.addTask(5, new EntityAIWander(this, this.moveSpeed));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 32.0F)); //Default 8.0F 
+        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 32.0F)); //Default: 8.0F 
         this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 64.0F, 0, true)); //Default 16.0F 
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 64.0F, 0, true)); //Default: 16.0F 
 
         if (par1World != null && !par1World.isRemote)
         {
@@ -233,9 +233,10 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
     }
 
     /**
-     * Drop 0-2 items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
+     * Drop items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
      * par2 - Level of Looting used to kill this mob.
      */
+    //Skeletons now drop more items
     protected void dropFewItems(boolean par1, int par2)
     {
         int j;
@@ -252,7 +253,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         }
         else
         {
-            j = this.rand.nextInt(3 + par2);
+            j = this.rand.nextInt(4 + par2) + 2; //Default: this.rand.nextInt(3 + par2);
 
             for (k = 0; k < j; ++k)
             {
@@ -260,7 +261,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
             }
         }
 
-        j = this.rand.nextInt(3 + par2);
+        j = this.rand.nextInt(3 + par2) + 1; //Default: remove '+ 1';
 
         for (k = 0; k < j; ++k)
         {
@@ -281,7 +282,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
      */
     protected void addRandomArmor()
     {
-    	//
+    	//There is now a greater chance to equip armor
     	float newArmorProbability = 0.75F; 
     	if(this.worldObj.difficultySetting == 0) 
     	{
@@ -341,7 +342,7 @@ public class EntitySkeleton extends EntityMob implements IRangedAttackMob
         this.setCurrentItemOrArmor(0, new ItemStack(Item.bow));
     }
     
-    //
+    //Greater chance to equip enchanted weapons/armor
     protected void func_82162_bC()
     {
     	//

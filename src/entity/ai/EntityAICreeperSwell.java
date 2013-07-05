@@ -25,7 +25,9 @@ public class EntityAICreeperSwell extends EntityAIBase
     public boolean shouldExecute()
     {
         EntityLiving entityliving = this.swellingCreeper.getAttackTarget();
-        return this.swellingCreeper.getCreeperState() > 0 || entityliving != null && this.swellingCreeper.getDistanceSqToEntity(entityliving) < 16.0D; //Default < 9.0D
+        
+        //Creepers can now explode at a greater distance from the player
+        return this.swellingCreeper.getCreeperState() > 0 || entityliving != null && this.swellingCreeper.getDistanceSqToEntity(entityliving) < 16.0D; //Default: < 9.0D
     }
 
     /**
@@ -50,6 +52,7 @@ public class EntityAICreeperSwell extends EntityAIBase
      */
     public void updateTask()
     {
+    	//Creepers will now not stop their fuse once started.
         if (this.creeperAttackTarget == null)
         {
             this.swellingCreeper.setCreeperState(-1);

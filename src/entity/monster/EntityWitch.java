@@ -38,15 +38,15 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
     {
         super(par1World);
         this.texture = "/mob/villager/witch.png";
-        this.moveSpeed = 0.27F; //Def 0.25F
+        this.moveSpeed = 0.27F; //Default: 0.25F
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIArrowAttack(this, this.moveSpeed, 60, 10.0F));
         this.tasks.addTask(2, new EntityAIWander(this, this.moveSpeed));
-        this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 32.0F)); //Default 8.0F 
+        this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 32.0F)); //Default: 8.0F 
         this.tasks.addTask(3, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 64.0F, 0, true)); //Default 16.0F 
-        this.experienceValue = 15; //Def 5
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 64.0F, 0, true)); //Default: 16.0F 
+        this.experienceValue = 15; //Default: 5
     }
 
     protected void entityInit()
@@ -145,11 +145,12 @@ public class EntityWitch extends EntityMob implements IRangedAttackMob
             {
                 short short1 = -1;
 
-                if (this.rand.nextFloat() < 1F && this.isBurning() && !this.isPotionActive(Potion.fireResistance)) //Def this.rand.nextFloat() < 0.15F
+                //Witches are now slightly smarter
+                if (this.isBurning() && !this.isPotionActive(Potion.fireResistance)) //Def this.rand.nextFloat() < 0.15F && this.isBurning()
                 {
                     short1 = 16307;
                 }
-                else if (this.rand.nextFloat() < 0.5F && this.health < this.getMaxHealth()) //Def this.rand.nextFloat() < 0.05F
+                else if ((this.rand.nextFloat() < 0.5F) && (this.health < this.getMaxHealth())) //Def this.rand.nextFloat() < 0.05F
                 {
                     short1 = 16341;
                 }

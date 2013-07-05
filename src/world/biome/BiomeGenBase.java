@@ -179,9 +179,9 @@ public abstract class BiomeGenBase
         this.spawnableWaterCreatureList.add(new SpawnListEntry(EntitySquid.class, 10, 4, 4));
         this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityBat.class, 10, 8, 8));
         
-        //
-        //this.spawnableCaveCreatureList.add(new SpawnListEntry(EntitySilverfish.class, 10, 2, 4));
-        this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityBlaze.class, 7, 2, 3));
+        //Silverfish and Blazes may now spawn in the Overworld (in the deep underground)
+        this.spawnableCaveCreatureList.add(new SpawnListEntry(EntitySilverfish.class, 10, 4, 8));
+        this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityBlaze.class, 10, 1, 2));
         //
     }
 

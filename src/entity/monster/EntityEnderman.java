@@ -26,7 +26,7 @@ public class EntityEnderman extends EntityMob
     {
         super(par1World);
         this.texture = "/mob/enderman.png";
-        this.moveSpeed = 0.3F; //Def 0.2F
+        this.moveSpeed = 0.3F; //Default: 0.2F
         this.setSize(0.6F, 2.9F);
         this.stepHeight = 1.0F;
     }
@@ -463,7 +463,7 @@ public class EntityEnderman extends EntityMob
      */
     public int getAttackStrength(Entity par1Entity)
     {
-        return 9; //Default 7
+        return 9; //Increased attack damage. Default: 7.
     }
 
     static

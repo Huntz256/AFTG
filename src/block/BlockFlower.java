@@ -64,7 +64,7 @@ public class BlockFlower extends Block implements IPlantable
         this.checkFlowerChange(par1World, par2, par3, par4);
     }
     
-    //
+    //Roses have thorns! Red flowers now cause damage on contact. 
     public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) 
     {
     	if(this.blockID == plantRed.blockID)

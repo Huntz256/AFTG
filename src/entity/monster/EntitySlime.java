@@ -4,6 +4,8 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -43,13 +45,13 @@ public class EntitySlime extends EntityLiving implements IMob
         this.setSize(0.6F * (float)par1, 0.6F * (float)par1);
         this.setPosition(this.posX, this.posY, this.posZ);
         this.setEntityHealth(this.getMaxHealth());
-        this.experienceValue = par1 * 2; //Def * 1
+        this.experienceValue = par1 * 2; //Increased EXP; slimes are more juicy. Default: * 1
     }
 
     public int getMaxHealth()
     {
         int i = this.getSlimeSize();
-        return i * i * 2; //Def i * i
+        return i * i * 2; //Increased health; slimes are more durable. Default: i * i
     }
 
     /**
@@ -239,6 +241,13 @@ public class EntitySlime extends EntityLiving implements IMob
             if (this.canEntityBeSeen(par1EntityPlayer) && this.getDistanceSqToEntity(par1EntityPlayer) < 0.6D * (double)i * 0.6D * (double)i && par1EntityPlayer.attackEntityFrom(DamageSource.causeMobDamage(this), this.getAttackStrength()))
             {
                 this.playSound("mob.attack", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+                
+                //Slimes now can slow the player down; they are very slimey, after all
+                if( ((int)(this.getSlimeSize() / 2) * 20) > 0) 
+                {
+                	par1EntityPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, ((int)(this.getSlimeSize() / 2)) * 20, 0)); 
+                }
+                //
             }
         }
     }

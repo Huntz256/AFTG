@@ -92,7 +92,7 @@ public class EntityArrow extends Entity implements IProjectile
         }
     }
     
-    //
+    //This new constructor allows for the coordinates of the arrow to be specified to shoot Arrows From The Ground
     public EntityArrow(World par1World, double x, double y, double z, EntityLiving par3EntityLiving, float par4, float par5)
     {
         super(par1World);

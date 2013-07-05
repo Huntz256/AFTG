@@ -68,7 +68,7 @@ public class EntityAIBreakDoor extends EntityAIDoorInteract
             this.field_75358_j = i;
         }
 
-        if (this.breakingTime == 240 /*&& this.theEntity.worldObj.difficultySetting == 3*/) //
+        if (this.breakingTime == 240 /*&& this.theEntity.worldObj.difficultySetting == 3*/) //Difficulty now does not need to be "Hard" in order for Zombies to break doors
         {
             this.theEntity.worldObj.setBlockToAir(this.entityPosX, this.entityPosY, this.entityPosZ);
             this.theEntity.worldObj.playAuxSFX(1012, this.entityPosX, this.entityPosY, this.entityPosZ, 0);

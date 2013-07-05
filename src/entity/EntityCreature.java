@@ -43,7 +43,7 @@ public abstract class EntityCreature extends EntityLiving
         }
 
         this.hasAttacked = this.isMovementCeased();
-        float f = 64.0F; //Default 16.0F
+        float f = 64.0F; //Default: 16.0F
 
         if (this.entityToAttack == null)
         {

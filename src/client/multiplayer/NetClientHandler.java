@@ -424,7 +424,7 @@ public class NetClientHandler extends NetHandler
         }
         else if (par1Packet23VehicleSpawn.type == 50)
         {
-            object = new EntityTNTPrimed(this.worldClient, d0, d1, d2, (EntityLiving)null, 4.0F); //
+            object = new EntityTNTPrimed(this.worldClient, d0, d1, d2, (EntityLiving)null, 4.0F); //New parameter due to now varied Primed TNT explosion radius
         }
         else if (par1Packet23VehicleSpawn.type == 51)
         {

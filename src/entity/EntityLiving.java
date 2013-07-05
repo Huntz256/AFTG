@@ -62,16 +62,19 @@ public abstract class EntityLiving extends Entity
      * An array of probabilities that determines whether a random enchantment should be added to the held item. Indexed
      * by difficulty.
      */
-    private static float[] enchantmentProbability = new float[] {0.0F, 0.5F, 0.7F, 1F}; //Def {0.0F, 0.0F, 0.1F, 0.2F}
+	
+	//Probability for certain monsters to equip enchanted items, enchanted armor, and armor has been increased.
+    private static float[] enchantmentProbability = new float[] {0.0F, 0.5F, 0.7F, 1F}; //Default: {0.0F, 0.0F, 0.1F, 0.2F}
 
     /** Probability to get enchanted armor */
-    private static float[] armorEnchantmentProbability = new float[] {0.0F, 0.2F, 0.4F, 1F}; //Def {0.0F, 0.0F, 0.25F, 0.5F}
+    private static float[] armorEnchantmentProbability = new float[] {0.0F, 0.2F, 0.4F, 1F}; //Default: {0.0F, 0.0F, 0.25F, 0.5F}
 
     /** Probability to get armor */
-    private static float[] armorProbability = new float[] {0.0F, 0.5F, 0.8F, 1F}; //Def {0.0F, 0.0F, 0.05F, 0.02F}
+    private static float[] armorProbability = new float[] {0.0F, 0.5F, 0.8F, 1F}; //Default: {0.0F, 0.0F, 0.05F, 0.02F}
 
     /** Probability to pick up loot */
-    public static final float[] pickUpLootProability = new float[] {0.0F, 0.5F, 1F, 1F}; //Def {0.0F, 0.1F, 0.15F, 0.45F}
+    public static final float[] pickUpLootProability = new float[] {0.0F, 0.5F, 1F, 1F}; //Default: {0.0F, 0.1F, 0.15F, 0.45F}
+    
     public int maxHurtResistantTime = 20;
     public float field_70769_ao;
     public float field_70770_ap;
@@ -2801,7 +2804,7 @@ public abstract class EntityLiving extends Entity
      */
     protected void addRandomArmor()
     {
-    	//
+    	//Probability for certain monsters to equip enchanted armor has been increased.
     	float newArmorProbability = 0.75F; 
     	if(this.worldObj.difficultySetting == 0) 
     	{
@@ -3010,7 +3013,7 @@ public abstract class EntityLiving extends Entity
 
     protected void func_82162_bC()
     {
-    	//
+    	//Probability for certain monsters to equip enchanted items and enchanted armor has been increased.
     	float newEnchantmentProbability = 0.7F, newArmorEnchantmentProbability = 0.4F;
     	if(this.worldObj.difficultySetting == 0) 
     	{

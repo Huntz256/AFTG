@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random; //
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
@@ -64,6 +65,7 @@ import net.minecraft.util.StringTranslate;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumGameType;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 
 import net.minecraftforge.common.ForgeHooks;
@@ -302,7 +304,8 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
         {
             --this.xpCooldown;
         }
-
+        
+        
         if (this.isPlayerSleeping())
         {
             ++this.sleepTimer;
@@ -618,6 +621,71 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 
         this.cameraYaw += (f - this.cameraYaw) * 0.4F;
         this.cameraPitch += (f1 - this.cameraPitch) * 0.8F;
+        
+        //The player is now subject to more realistic cold effects
+        //Being in a cold biome may cause the player to take damage.
+        //Being in cold water or snow while in a cold biome may cause even more damage to be taken. 
+        BiomeGenBase currentBiome = worldObj.getBiomeGenForCoords((int)this.posX, (int)this.posZ);
+        if ((currentBiome == BiomeGenBase.frozenOcean) || (currentBiome == BiomeGenBase.frozenRiver) || (currentBiome == BiomeGenBase.iceMountains) || (currentBiome == BiomeGenBase.icePlains) || (currentBiome == BiomeGenBase.taiga) || (currentBiome == BiomeGenBase.taigaHills))
+        {
+            if (this.isInWater()) 
+            {
+            	if (this.getTotalArmorValue() < 5)
+            	{
+            		if (new Random().nextInt(60) == 0)
+    	        	{
+            			if(worldObj.isRaining() == true)
+                        {
+	    	            	this.addStat(StatList.damageTakenStat, 3);
+	    		            super.attackEntityFrom(DamageSource.cold, 3);
+	    		            this.addExhaustion(6.0F);
+                        }
+            			else
+            			{
+            				this.addStat(StatList.damageTakenStat, 2);
+	    		            super.attackEntityFrom(DamageSource.cold, 2);
+	    		            this.addExhaustion(5.0F);
+            			}
+    	        	}
+            	}	
+            }
+            else if (this.getTotalArmorValue() < 4)
+        	{
+            	if(worldObj.isRaining() == true)
+                {
+            		if(this.collidingWithSnow == true && (new Random().nextInt(200) == 0))
+	            	{
+	            		this.addStat(StatList.damageTakenStat, 2);
+			            super.attackEntityFrom(DamageSource.cold, 2);
+			            this.addExhaustion(4.5F);
+	            	}
+	            	else if (new Random().nextInt(210) == 0)
+		        	{
+		            	this.addStat(StatList.damageTakenStat, 2);
+			            super.attackEntityFrom(DamageSource.cold, 2);
+			            this.addExhaustion(4.0F);
+		        	}
+                }
+            	else
+            	{
+	            	if(this.collidingWithSnow == true && (new Random().nextInt(240) == 0))
+	            	{
+	            		this.addStat(StatList.damageTakenStat, 1);
+			            super.attackEntityFrom(DamageSource.cold, 1);
+			            this.addExhaustion(3.5F);
+	            	}
+	            	else if (new Random().nextInt(250) == 0)
+		        	{
+		            	this.addStat(StatList.damageTakenStat, 1);
+			            super.attackEntityFrom(DamageSource.cold, 1);
+			            this.addExhaustion(3.0F);
+		        	}
+            	}
+        	}
+            
+            
+        }
+        //
 
         if (this.getHealth() > 0)
         {
@@ -1046,7 +1114,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
                         par2 = par2 * 3 / 2;
                     }
                     
-                    //
+                    //The player takes increased damage (1.5x)
                     par2 *= 1.5;
                     //
                 }
@@ -2089,6 +2157,14 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
             if (!this.worldObj.isRemote)
             {
                 this.foodStats.addExhaustion(par1);
+                
+                //The player gets more hungry in hell (The Nether)
+                BiomeGenBase currentBiome = worldObj.getBiomeGenForCoords((int)this.posX, (int)this.posY);
+                if(currentBiome == BiomeGenBase.hell)
+                {
+                	this.foodStats.addExhaustion(par1);
+                }
+                //
             }
         }
     }

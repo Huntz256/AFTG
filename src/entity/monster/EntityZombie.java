@@ -3,6 +3,8 @@ package net.minecraft.entity.monster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Calendar;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -39,7 +41,7 @@ public class EntityZombie extends EntityMob
     {
         super(par1World);
         this.texture = "/mob/zombie.png";
-        this.moveSpeed = 0.25F; //Def 0.23F
+        this.moveSpeed = 0.22F; //Default: 0.23F
         this.getNavigator().setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIBreakDoor(this));
@@ -48,11 +50,11 @@ public class EntityZombie extends EntityMob
         this.tasks.addTask(4, new EntityAIMoveTwardsRestriction(this, this.moveSpeed));
         this.tasks.addTask(5, new EntityAIMoveThroughVillage(this, this.moveSpeed, false));
         this.tasks.addTask(6, new EntityAIWander(this, this.moveSpeed));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 32.0F)); //Default 8.0F 
+        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 32.0F)); //Default: 8.0F 
         this.tasks.addTask(7, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 64.0F, 0, true)); //Default 16.0F 
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityVillager.class, 64.0F, 0, false)); //Default 16.0F 
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 64.0F, 0, true)); //Default: 16.0F 
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityVillager.class, 64.0F, 0, false)); //Default: 16.0F 
     }
 
     protected int func_96121_ay()
@@ -215,7 +217,27 @@ public class EntityZombie extends EntityMob
         {
             par1Entity.setFire(2 * this.worldObj.difficultySetting);
         }
-
+        
+        //Zombies now have a chance to inflict Slowness effects on the player on contact.
+        if(this.getClass() == EntityZombie.class)
+        {
+	        //On Normal, 1/3 chance for Zombies to inflict Slowness I (5sec) and Dig Slowdown I (5sec) on contact
+	        if (this.worldObj.difficultySetting == 2 && (new Random().nextInt(2) == 0))
+	        {
+	        	((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 0));
+	        	((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 5 * 20, 0));
+	        }
+	        
+	        //On Hard, 1/2 chance for Zombies to inflict Slowness II (5sec) and Dig Slowdown II (5sec) on contact
+	        else if (this.worldObj.difficultySetting >= 3 && (new Random().nextInt(1) == 0))
+	        {
+	        	((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 1));
+	        	((EntityLiving)par1Entity).addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 5 * 20, 1));
+	        }
+        }
+        //
+        
+        
         return flag;
     }
 
@@ -304,7 +326,7 @@ public class EntityZombie extends EntityMob
      */
     protected void addRandomArmor()
     {
-    	//
+    	//Increased probability of wearing armor
     	float newArmorProbability = 0.75F; 
     	if(this.worldObj.difficultySetting == 0) 
     	{
@@ -378,7 +400,7 @@ public class EntityZombie extends EntityMob
     
     protected void func_82162_bC()
     {
-    	//
+    	//Increased probability of equipping enchanted armor/weapons
     	float newEnchantmentProbability = 0.7F, newArmorEnchantmentProbability = 0.4F;
     	if(this.worldObj.difficultySetting == 0) 
     	{
@@ -634,5 +656,14 @@ public class EntityZombie extends EntityMob
         }
 
         return i;
+    }
+    
+    /**
+     * Drop 1-3 items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
+     * par2 - Level of Looting used to kill this mob.
+     */
+    protected void dropFewItems(boolean par1, int par2)
+    {
+    	super.dropFewItems(par1, par2 + 1);
     }
 }

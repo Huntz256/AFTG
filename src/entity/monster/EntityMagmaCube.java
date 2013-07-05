@@ -4,6 +4,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class EntityMagmaCube extends EntitySlime
@@ -89,7 +91,7 @@ public class EntityMagmaCube extends EntitySlime
                 this.dropItem(j, 1);
             }
             
-            //
+            //An additional item is dropped by Magma cube, increasing number of items dropped from 0-2 to 1-3.
             this.dropItem(j, 1);
             //
         }
@@ -111,7 +113,7 @@ public class EntityMagmaCube extends EntitySlime
         return super.getJumpDelay() * 4;
     }
     
-    //Set the player on fire on collision
+    //Magma Cube now sets the player on fire on collision
     /**
      * Called by a player entity when they collide with an entity
      */
@@ -119,6 +121,10 @@ public class EntityMagmaCube extends EntitySlime
     {
     	super.onCollideWithPlayer(par1EntityPlayer);
     	par1EntityPlayer.setFire((int)(this.getSlimeSize() / 2));
+        if( ((int)(this.getSlimeSize() / 2) * 20) > 0) 
+        {
+        	par1EntityPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, ((int)(this.getSlimeSize() / 2)) * 20, 0)); 
+        }
     }
     //
 

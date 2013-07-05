@@ -176,7 +176,7 @@ public class BlockFire extends Block
                     this.tryToCatchBlockOnFire(par1World, par2, par3, par4 - 1, 300 + b0, par5Random, l, SOUTH);
                     this.tryToCatchBlockOnFire(par1World, par2, par3, par4 + 1, 300 + b0, par5Random, l, NORTH);
                     
-                    //
+                    //Fire is now buffed as it can spread to blocks further away from itself.
                     this.tryToCatchBlockOnFire(par1World, par2 + 2, par3, par4, 300 + b0, par5Random, l, WEST );
                     this.tryToCatchBlockOnFire(par1World, par2 - 2, par3, par4, 300 + b0, par5Random, l, EAST );
                     this.tryToCatchBlockOnFire(par1World, par2, par3 - 2, par4, 250 + b0, par5Random, l, UP   );
@@ -205,7 +205,7 @@ public class BlockFire extends Block
 
                                     if (i2 > 0)
                                     {
-                                        int j2 = (i2 + 40 + par1World.difficultySetting * 14) / (l + 30); //Def difficultySetting * 7
+                                        int j2 = (i2 + 40 + par1World.difficultySetting * 14) / (l + 30); //Buffed fire. Default: difficultySetting * 7
 
                                         if (flag1)
                                         {
