@@ -37,7 +37,7 @@ public class EntityCreeper extends EntityMob
     private int fuseTime = 40; //Default: 30
 
     /** Explosion radius for this creeper. */
-    private int explosionRadius = 4;
+    private int explosionRadius = 4; //Default: 3
 
     //Changes made: creepers are now scared of skeletons, and they watch the player from an increased distance.
     public EntityCreeper(World par1World)

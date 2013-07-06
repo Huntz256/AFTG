@@ -31,7 +31,7 @@ public class EntityTNTPrimed extends Entity
         this.motionX = (double)(-((float)Math.sin((double)f)) * 0.02F);
         this.motionY = 0.20000000298023224D;
         this.motionZ = (double)(-((float)Math.cos((double)f)) * 0.02F);
-        this.fuse = 80;
+        this.fuse = 80; 
         this.prevPosX = par2;
         this.prevPosY = par4;
         this.prevPosZ = par6;
@@ -39,7 +39,25 @@ public class EntityTNTPrimed extends Entity
         this.explosionRadius = explosionRadius; //
     }
 
-    protected void entityInit() {}
+    //
+    public EntityTNTPrimed (World par1World, double par2, double par4, double par6, EntityLiving par8EntityLiving, float explosionRadius, int fuseTime) 
+    {
+    	this(par1World);
+        this.setPosition(par2, par4, par6);
+        float f = (float)(Math.random() * Math.PI * 2.0D);
+        this.motionX = (double)(-((float)Math.sin((double)f)) * 0.02F);
+        this.motionY = 0.20000000298023224D;
+        this.motionZ = (double)(-((float)Math.cos((double)f)) * 0.02F);
+        this.fuse = fuseTime; //
+        this.prevPosX = par2;
+        this.prevPosY = par4;
+        this.prevPosZ = par6;
+        this.tntPlacedBy = par8EntityLiving;
+        this.explosionRadius = explosionRadius; //
+	}
+    //
+
+	protected void entityInit() {}
 
     /**
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
