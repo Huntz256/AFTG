@@ -1,8 +1,10 @@
 AFTG
 ====
-A Minecraft mod that increases the game's difficulty without adding any new content to Minecraft (e.g. items, blocks, entities) or altering world generation. These are the modified java source code files. Source code areas that I've modified are marked with my comments and "//". 
+A Minecraft mod that increases the game's difficulty without adding any new content to Minecraft (e.g. items, blocks, entities) or altering world generation. These are the modified java source code files. Source code areas that I've modified are marked with my comments. 
 
 v1.0.0 for Minecraft 1.5.1.  
+  
+Mod download link (requires forge; see instructions below):  http://dl.dropboxusercontent.com/s/g1cscd9grrvrb9e/%5B1.5.1%5D%20AFTG%20v1.0.0.zip?token_hash=AAFKvVGJzW4rvB-Qylm1mINLBI9OEK-iS_aaM8vveqxXkw&dl=1
 
 Implemented Features 
 ---------------------
